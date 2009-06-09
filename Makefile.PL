@@ -2,11 +2,11 @@
 use inc::Module::Install;
 
 # Define metadata
-name            'Text-Markdown';
+name            'Text-MultiMarkdown';
 author          'Tomas Doran <bobtfish@bobtfish.net>';
 license         'bsd';
-all_from        'lib/Text/Markdown.pm';
-resources repository => 'http://svn.kulp.ch/cpan/text_multimarkdown';
+all_from        'lib/Text/MultiMarkdown.pm';
+resources repository => 'http://bobtfish.github.com/text-multimarkdown/tree/master';
 
 # Specific dependencies
 perl_version    '5.008';
@@ -20,7 +20,7 @@ build_requires  'File::Slurp'     => '9999.08';
 build_requires  'FindBin'         => undef;
 
 # Scripts I install
-prompt_script('script/Markdown.pl');
 prompt_script('script/MultiMarkdown.pl');
 
 WriteAll;
+
