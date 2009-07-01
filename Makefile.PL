@@ -11,7 +11,7 @@ resources repository => 'http://bobtfish.github.com/text-multimarkdown/tree/mast
 # Specific dependencies
 perl_version    '5.008';
 requires        'Digest::MD5'     => undef;
-requires        'Text::Balanced'  => undef;
+requires        'Text::Markdown'  => '1.0.24';
 requires        'Encode'          => undef;
 build_requires  'Test::More'      => '0.42';
 build_requires  'Test::Exception' => undef;
