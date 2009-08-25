@@ -6,7 +6,8 @@ name            'Text-MultiMarkdown';
 author          'Tomas Doran <bobtfish@bobtfish.net>';
 license         'bsd';
 all_from        'lib/Text/MultiMarkdown.pm';
-resources repository => 'http://bobtfish.github.com/text-multimarkdown/tree/master';
+resources repository => 'http://github.com/bobtfish/text-multimarkdown/';
+resources bugtracker => 'http://github.com/bobtfish/text-multimarkdown/issues';
 
 # Specific dependencies
 perl_version    '5.008';

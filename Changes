@@ -205,9 +205,12 @@ This file documents the revision history for Perl extension Text::MultiMarkdown.
           to enable <li value='X'> output for list numbering.
           This feature is disabled by default.
 
-1.0.25 Tue Jun  9 22:52:13 BST 2009
+1.0.25 2009-06-09T22:52:13
         - Split Text::MultiMarkdown back out into it's own dist.
 
-1.0.26 Wed Jul  1 08:35:00 BST 2009
+1.0.26 2009-07-01T08:35:00
         - Fix to depend on the Text::Markdown package.
+
+1.0.27 UNRELEASED
+        - Change bug tracker metadata to the github issue tracker.
 
