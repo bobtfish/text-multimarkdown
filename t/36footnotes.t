@@ -21,7 +21,7 @@ my $expstr = <<OUTPUT;
 <hr />
 <ol>
 
-<li id="fn:bug"><p>Use <code>MYAPP_CONFIG_LOCAL_SUFFIX</code>.<a href="#fnref:bug" class="reversefootnote">&#160;&#8617;</a>1</li>
+<li id="fn:bug"><p>Use <code>MYAPP_CONFIG_LOCAL_SUFFIX</code>.<a href="#fnref:bug" class="reversefootnote">&#160;&#8617;</a></p></li>
 
 </ol>
 </div>
