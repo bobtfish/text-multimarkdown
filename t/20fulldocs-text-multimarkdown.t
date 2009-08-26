@@ -98,10 +98,10 @@ sub run_tests {
         $output =~ s/\s+\z//; # trim trailing whitespace
         my $processed = $m->markdown($input);
         $processed =~ s/\s+\z//; # trim trailing whitespace
-
+    
         if ($TIDY) {
+            local $SIG{__WARN__} = sub {};
             my $t = HTML::Tidy->new;
-            $t->ignore( type => 'TIDY_WARNING' );
             $output = $t->clean($output);
             $processed = $t->clean($processed);
         }
@@ -111,7 +111,7 @@ sub run_tests {
         $output =~ s/\t/&tab;/g;
         $processed =~ s/ /&nbsp;/g;
         $processed =~ s/\t/&tab;/g;
-
+        
         difftest($processed, $output, "Docs test: $test");
     }
 }
