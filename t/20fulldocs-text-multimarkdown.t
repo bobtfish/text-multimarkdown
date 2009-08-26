@@ -100,6 +100,7 @@ sub run_tests {
         $processed =~ s/\s+\z//; # trim trailing whitespace
     
         if ($TIDY) {
+            local $SIG{__WARN__} = sub {};
             my $t = HTML::Tidy->new;
             $output = $t->clean($output);
             $processed = $t->clean($processed);
