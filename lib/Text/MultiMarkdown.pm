@@ -659,7 +659,7 @@ sub _DoFootnotes {
     # First, run routines that get skipped in footnotes
     foreach my $label (sort keys %{ $self->{_footnotes} }) {
         my $footnote = $self->_RunBlockGamut($self->{_footnotes}{$label});
-
+        $footnote = $self->_UnescapeSpecialChars($footnote);
         $footnote = $self->_DoMarkdownCitations($footnote);
         $self->{_footnotes}{$label} = $footnote;
     }

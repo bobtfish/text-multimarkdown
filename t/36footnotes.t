@@ -15,15 +15,14 @@ This is buggy[^bug].
 MARKDOWN
 
 my $expstr = <<OUTPUT;
-<p>This is buggy<a class="footnote" href="#bug" id="fbug">1</a>.</p>
+<p>This is buggy<a href="#fn:bug" id="fnref:bug" class="footnote">1</a>.</p>
 
 <div class="footnotes">
-<hr/>
-
+<hr />
 <ol>
-<li id="bug">
-<p>Use <code>MYAPP_CONFIG_LOCAL_SUFFIX</code>.<a class="reversefootnote" href="#fbug">&#xA0;&#x21A9;</a></p>
-</li>
+
+<li id="fn:bug"><p>Use <code>MYAPP_CONFIG_LOCAL_SUFFIX</code>.<a href="#fnref:bug" class="reversefootnote">&#160;&#8617;</a>1</li>
+
 </ol>
 </div>
 OUTPUT
