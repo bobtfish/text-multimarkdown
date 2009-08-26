@@ -704,9 +704,10 @@ sub _PrintFootnotes {
     foreach my $id (@{ $self->{_used_footnotes} }) {
         $footnote_counter++;
         my $footnote = $self->{_footnotes}{$id};
+        my $footnote_closing_tag = '';
 
-        my ($footnote_closing_tag) = $footnote =~ s/(\<\/(p(re)?|ol|ul)\>)$//;
-        $footnote_closing_tag ||= '';
+        $footnote =~ s/(\<\/(p(re)?|ol|ul)\>)$//;
+        $footnote_closing_tag = $1;
 
         if ($footnote =~ s/^glossary:\s*//i) {
             # Add some formatting for glossary entries
