@@ -48,4 +48,6 @@ XHTML
 html
 shortversion
 quux
+GitHub
+Redistributions
 
