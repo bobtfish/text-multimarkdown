@@ -216,3 +216,7 @@ This file documents the revision history for Perl extension Text::MultiMarkdown.
         - Fix http://github.com/bobtfish/text-multimarkdown/issues#issue/5
           regression causing specialchars to not be unhashed in footnotes.
 
+1.0.28 2009-10-05T20:24:40
+        - Changes to be in line with latest Text::Markdown version 1.0.26
+        - Update README file and tie it to the code.
+

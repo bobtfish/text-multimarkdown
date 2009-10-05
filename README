@@ -95,10 +95,6 @@ OPTIONS
     tab_width
         Controls indent width in the generated markup, defaults to 4
 
-    markdown_in_html_blocks
-        Controls if Markdown is processed when inside HTML blocks. Defaults
-        to 0.
-
     disable_tables
         If true, this disables the MultiMarkdown table handling.
 

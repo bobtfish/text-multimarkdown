@@ -23,7 +23,12 @@ build_requires  'FindBin'         => undef;
 if ($Module::Install::AUTHOR) {
     system("pod2text lib/Text/MultiMarkdown.pm > README")
         and die $!;
+    require Module::Install::CheckConflicts;
 }
+
+check_conflicts(
+    'Text::Markdown' => '1.0.25',
+);
 
 # Scripts I install
 prompt_script('script/MultiMarkdown.pl');
