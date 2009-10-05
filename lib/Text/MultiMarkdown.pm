@@ -115,10 +115,6 @@ The title of the generated bibliography, defaults to 'Bibliography'.
 
 Controls indent width in the generated markup, defaults to 4
 
-=item markdown_in_html_blocks
-
-Controls if Markdown is processed when inside HTML blocks. Defaults to 0.
-
 =item disable_tables
 
 If true, this disables the MultiMarkdown table handling.
@@ -219,9 +215,6 @@ sub new {
     # NOTE: You can use \WikiWord to prevent a WikiWord from being treated as a link
     $p{use_wikilinks} = $p{use_wikilinks} ? 1 : 0;
 
-    # Is markdown processed in HTML blocks? See t/15inlinehtmldonotturnoffmarkdown.t
-    $p{markdown_in_html_blocks} = $p{markdown_in_html_blocks} ? 1 : 0;
-
     $p{heading_ids} = defined $p{heading_ids} ? $p{heading_ids} : 1;
     $p{img_ids}     = defined $p{img_ids}     ? $p{img_ids}     : 1;
 
@@ -297,14 +290,14 @@ sub _Markdown {
     $text = $self->_ParseMetaData($text) if ($self->{use_metadata} || $self->{strip_metadata});
 
     # Turn block-level HTML blocks into hash entries
-    $text = $self->_HashHTMLBlocks($text) unless $self->{markdown_in_html_blocks};
+    $text = $self->_HashHTMLBlocks($text, {interpret_markdown_on_attribute => 1});
 
     $text = $self->_StripLinkDefinitions($text);
 
     # MMD only
     $text = $self->_StripMarkdownReferences($text);
 
-    $text = $self->_RunBlockGamut($text);
+    $text = $self->_RunBlockGamut($text, {wrap_in_p_tags => 1});
 
     # MMD Only
     $text = $self->_DoMarkdownCitations($text) unless $self->{disable_bibliography};
@@ -315,7 +308,7 @@ sub _Markdown {
     # MMD Only
     # This must follow _UnescapeSpecialChars
     $text = $self->_UnescapeWikiWords($text);
-    $text = $self->_FixFootnoteParagraphs($text) unless $self->{disable_footnotes};
+    $text = $self->_FixFootnoteParagraphs($text) unless $self->{disable_footnotes};  # TODO: remove. Doesn't make any difference to test suite pass/failure
     $text .= $self->_PrintFootnotes() unless $self->{disable_footnotes};
     $text .= $self->_PrintMarkdownBibliography() unless $self->{disable_bibliography};
 
@@ -658,7 +651,7 @@ sub _DoFootnotes {
 
     # First, run routines that get skipped in footnotes
     foreach my $label (sort keys %{ $self->{_footnotes} }) {
-        my $footnote = $self->_RunBlockGamut($self->{_footnotes}{$label});
+        my $footnote = $self->_RunBlockGamut($self->{_footnotes}{$label}, {wrap_in_p_tags => 1});
         $footnote = $self->_UnescapeSpecialChars($footnote);
         $footnote = $self->_DoMarkdownCitations($footnote);
         $self->{_footnotes}{$label} = $footnote;
@@ -688,10 +681,11 @@ sub _DoFootnotes {
     return $text;
 }
 
+# TODO: remove. Doesn't make any difference to test suite pass/failure
 sub _FixFootnoteParagraphs {
     my ($self, $text) = @_;
 
-    $text =~ s/^\<p\>\<\/footnote\>/<\/footnote>/gm;
+    $text =~ s(^<p></footnote>)(</footnote>)gm;
 
     return $text;
 }
@@ -705,7 +699,7 @@ sub _PrintFootnotes {
         $footnote_counter++;
         my $footnote = $self->{_footnotes}{$id};
 
-        $footnote =~ s/(\<\/(p(re)?|ol|ul)\>)$//;
+        $footnote =~ s/(<\/(p(re)?|ol|ul)>)$//;
         my $footnote_closing_tag = $1;
         $footnote_closing_tag = '' if !defined $footnote_closing_tag;
 
@@ -1131,11 +1125,7 @@ sub _StripMarkdownReferences {
 
         $reference =~ s/^[ ]{0,$self->{tab_width}}//gm;
 
-        $reference = $self->_RunBlockGamut($reference);
-
-        # strip leading and trailing <p> tags (they will be added later)
-        $reference =~ s/^\<p\>//s;
-        $reference =~ s/\<\/p\>\s*$//s;
+        $reference = $self->_RunBlockGamut($reference, {wrap_in_p_tags => 0});
 
         $self->{_references}{$id} = $reference;
     }
