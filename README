@@ -1,24 +1,26 @@
 NAME
-    Text::Markdown - Convert Markdown syntax to (X)HTML
+    Text::MultiMarkdown - Convert MultiMarkdown syntax to (X)HTML
 
 SYNOPSIS
-        use Text::Markdown 'markdown';
+        use Text::MultiMarkdown 'markdown';
         my $html = markdown($text);
 
-        use Text::Markdown 'markdown';
+        use Text::MultiMarkdown 'markdown';
         my $html = markdown( $text, {
             empty_element_suffix => '>',
             tab_width => 2,
+            use_wikilinks => 1,
         } );
 
-        use Text::Markdown;
-        my $m = Text::Markdown->new;
+        use Text::MultiMarkdown;
+        my $m = Text::MultiMarkdown->new;
         my $html = $m->markdown($text);
 
-        use Text::Markdown;
+        use Text::MultiMarkdown;
         my $m = Text::MultiMarkdown->new(
             empty_element_suffix => '>',
             tab_width => 2,
+            use_wikilinks => 1,
         );
         my $html = $m->markdown( $text );
 
@@ -33,13 +35,32 @@ DESCRIPTION
     HTML tags anywhere in a Markdown document, and you can use block level
     HTML tags (like <div> and <table> as well).
 
+    This module implements the MultiMarkdown markdown syntax extensions
+    from:
+
+        http://fletcherpenney.net/multimarkdown/
+
 SYNTAX
-    This module implements the 'original' Markdown markdown syntax from:
+    For more information about (original) Markdown's syntax, see:
 
         http://daringfireball.net/projects/markdown/
 
+    This module implements MultiMarkdown, which is an extension to
+    Markdown..
+
+    The extension is documented at:
+
+        http://fletcherpenney.net/multimarkdown/
+
+    and borrows from php-markdown, which lives at:
+
+        http://michelf.com/projects/php-markdown/extra/
+
+    This documentation is going to be moved/copied into this module for
+    clearer reading in a future release..
+
 OPTIONS
-    Text::Markdown supports a number of options to it's processor which
+    MultiMarkdown supports a number of options to it's processor which
     control the behaviour of the output document.
 
     These options can be supplied to the constructor, on in a hash with the
@@ -48,9 +69,28 @@ OPTIONS
 
     The options for the processor are:
 
+    use_metadata
+        Controls the metadata options below.
+
+    strip_metadata
+        If true, any metadata in the input document is removed from the
+        output document (note - does not take effect in complete document
+        format).
+
     empty element suffix
         This option can be used to generate normal HTML output. By default,
         it is ' />', which is xHTML, change to '>' for normal HTML.
+
+    img_ids
+        Controls if <img> tags generated have an id attribute. Defaults to
+        true. Turn off for compatibility with the original markdown.
+
+    heading_ids
+        Controls if <hX> tags generated have an id attribute. Defaults to
+        true. Turn off for compatibility with the original markdown.
+
+    bibliography_title
+        The title of the generated bibliography, defaults to 'Bibliography'.
 
     tab_width
         Controls indent width in the generated markup, defaults to 4
@@ -59,7 +99,59 @@ OPTIONS
         Controls if Markdown is processed when inside HTML blocks. Defaults
         to 0.
 
-METHODS
+    disable_tables
+        If true, this disables the MultiMarkdown table handling.
+
+    disable_footnotes
+        If true, this disables the MultiMarkdown footnotes handling.
+
+    disable_bibliography
+        If true, this disables the MultiMarkdown bibliography/citation
+        handling.
+
+    A number of possible items of metadata can also be supplied as options.
+    Note that if the use_metadata is true then the metadata in the document
+    will overwrite the settings on command line.
+
+    Metadata options supported are:
+
+    document_format
+    use_wikilinks
+    base_url
+
+METADATA
+    MultiMarkdown supports the concept of 'metadata', which allows you to
+    specify a number of formatting options within the document itself.
+    Metadata should be placed in the top few lines of a file, on value per
+    line as colon separated key/value pairs. The metadata should be
+    separated from the document with a blank line.
+
+    Most metadata keys are also supported as options to the constructor, or
+    options to the markdown method itself. (Note, as metadata, keys contain
+    space, whereas options the keys are underscore separated.)
+
+    You can attach arbitrary metadata to a document, which is output in HTML
+    <META> tags if unknown, see t/11document_format.t for more info.
+
+    A list of 'known' metadata keys, and their effects are listed below:
+
+    document format
+        If set to 'complete', MultiMarkdown will render an entire xHTML
+        page, otherwise it will render a document fragment
+
+        css Sets a CSS file for the file, if in 'complete' document format.
+
+        title
+            Sets the page title, if in 'complete' document format.
+
+    use wikilinks
+        If set to '1' or 'on', causes links that are WikiWords to
+        automatically be processed into links.
+
+    base url
+        This is the base URL for referencing wiki pages. In this is not
+        supplied, all wiki links are relative.
+
 METHODS
   new
     A simple constructor, see the SYNTAX and OPTIONS sections for more
@@ -69,52 +161,11 @@ METHODS
     The main function as far as the outside world is concerned. See the
     SYNOPSIS for details on use.
 
-  urls
-    Returns a reference to a hash with the key being the markdown reference
-    and the value being the URL.
-
-    Useful for building scripts which preprocess a list of links before the
-    main content. See t/05options.t for an example of this hashref being
-    passed back into the markdown method to create links.
-
-OTHER IMPLEMENTATIONS
-    Markdown has been re-implemented in a number of languages, and with a
-    number of additions.
-
-    Those that I have found are listed below:
-
-    C - <http://www.pell.portland.or.us/~orc/Code/discount>
-        Discount - Original Markdown, but in C. Fastest implementation
-        available, and passes MDTest. Adds it's own set of custom features.
-
-    python - <http://www.freewisdom.org/projects/python-markdown/>
-        Python Markdown which is mostly compatible with the original, with
-        an interesting extension API.
-
-    ruby (maruku) - <http://maruku.rubyforge.org/>
-        One of the nicest implementations out there. Builds a parse tree
-        internally so very flexible.
-
-    php - <http://michelf.com/projects/php-markdown/>
-        A direct port of Markdown.pl, also has a separately maintained
-        'extra' version, which adds a number of features that were borrowed
-        by MultiMarkdown.
-
-    lua - <http://www.frykholm.se/files/markdown.lua>
-        Port to lua. Simple and lightweight (as lua is).
-
-    haskell - <http://johnmacfarlane.net/pandoc/>
-        Pandoc is a more general library, supporting Markdown,
-        reStructuredText, LaTeX and more.
-
-    javascript - <http://www.attacklab.net/showdown-gui.html>
-        Direct(ish) port of Markdown.pl to JavaScript
-
 BUGS
     To file bug reports or feature requests please send email to:
 
         bug-Text-Markdown@rt.cpan.org
-    
+
     Please include with your report: (1) the example input; (2) the output
     you expected; (3) the output Markdown actually produced.
 
@@ -133,23 +184,24 @@ AUTHOR
 
         CPAN Module Text::MultiMarkdown (based on Text::Markdown by Sebastian
         Riedel) originally by Darren Kulp (http://kulp.ch/)
-    
+
         This module is maintained by: Tomas Doran http://www.bobtfish.net/
 
 THIS DISTRIBUTION
-    Please note that this distribution is a fork of John Gruber's original
-    Markdown project, and it *is not* in any way blessed by him.
+    Please note that this distribution is a fork of Fletcher Penny's
+    MultiMarkdown project, and it *is not* in any way blessed by him.
 
-    Whilst this code aims to be compatible with the original Markdown.pl
-    (and incorporates and passes the Markdown test suite) whilst fixing a
-    number of bugs in the original - there may be differences between the
-    behaviour of this module and Markdown.pl. If you find any differences
-    where you believe Text::Markdown behaves contrary to the Markdown spec,
-    please report them as bugs.
+    Whilst this code aims to be compatible with the original MultiMarkdown
+    (and incorporates and passes the MultiMarkdown test suite) whilst fixing
+    a number of bugs in the original - there may be differences between the
+    behaviour of this module and MultiMarkdown. If you find any differences
+    where you believe Text::MultiMarkdown behaves contrary to the
+    MultiMarkdown spec, please report them as bugs.
 
-    Text::Markdown *does not* extend the markdown dialect in any way from
-    that which is documented at daringfireball. If you want additional
-    features, you should look at Text::MultiMarkdown.
+SOURCE CODE
+    You can find the source code repository for Text::Markdown and
+    Text::MultiMarkdown on GitHub at
+    <http://github.com/bobtfish/text-markdown>.
 
 COPYRIGHT AND LICENSE
     Original Code Copyright (c) 2003-2004 John Gruber
@@ -158,7 +210,7 @@ COPYRIGHT AND LICENSE
     MultiMarkdown changes Copyright (c) 2005-2006 Fletcher T. Penney
     <http://fletcher.freeshell.org/> All rights reserved.
 
-    Text::MultiMarkdown changes Copyright (c) 2006-2008 Darren Kulp
+    Text::MultiMarkdown changes Copyright (c) 2006-2009 Darren Kulp
     <http://kulp.ch> and Tomas Doran <http://www.bobtfish.net>
 
     Redistribution and use in source and binary forms, with or without
