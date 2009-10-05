@@ -308,7 +308,7 @@ sub _Markdown {
     # MMD Only
     # This must follow _UnescapeSpecialChars
     $text = $self->_UnescapeWikiWords($text);
-    $text = $self->_FixFootnoteParagraphs($text) unless $self->{disable_footnotes};
+    $text = $self->_FixFootnoteParagraphs($text) unless $self->{disable_footnotes};  # TODO: remove. Doesn't make any difference to test suite pass/failure
     $text .= $self->_PrintFootnotes() unless $self->{disable_footnotes};
     $text .= $self->_PrintMarkdownBibliography() unless $self->{disable_bibliography};
 
@@ -681,6 +681,7 @@ sub _DoFootnotes {
     return $text;
 }
 
+# TODO: remove. Doesn't make any difference to test suite pass/failure
 sub _FixFootnoteParagraphs {
     my ($self, $text) = @_;
 

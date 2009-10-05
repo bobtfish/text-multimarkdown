@@ -1,6 +1,6 @@
 Todo pre 1.0.23:
     . Tests for $footnote =~ s/^glossary:\s*//i
-	. Tests for $footnote_closing_tag
+    . Tests for $footnote_closing_tag
     . Add an option to Text::Markdown to have original brand markdown style 
       emphasis within words support.
     . Re-merge Movable Type and Bloxom compatibility to the scripts, and add 
@@ -36,7 +36,9 @@ Todo pre 1.0.26:
    . Make a Text::Markdown::Extra with the Markdown extra features?
      
 Todo pre 1.1:
-   . Build a parse tree when parsing (which can be returned), rather than just 
+   . Either remove Text::MultiMarkdown::_FixFootnoteParagraphs or add tests to
+     exercise it. Currently, removing it doesn't affect any test.
+   . Build a parse tree when parsing (which can be returned), rather than just
      using strings. This would make the output format much more flexible, and
      would remove a load of nasty hacks which escape, then un-escape things
      again whist processing..
