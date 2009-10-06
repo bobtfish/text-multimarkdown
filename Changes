@@ -220,3 +220,6 @@ This file documents the revision history for Perl extension Text::MultiMarkdown.
         - Changes to be in line with latest Text::Markdown version 1.0.26
         - Update README file and tie it to the code.
 
+1.0.29 2009-10-06T08:25:40
+        - Update dependency versions in Makefile.PL neglected last release.
+
