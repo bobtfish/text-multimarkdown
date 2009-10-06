@@ -50,7 +50,10 @@ as headers, *emphasis*, code blocks, blockquotes, and links.
 Markdown's syntax is designed not as a generic markup language, but
 specifically to serve as a front-end to (X)HTML. You can use span-level
 HTML tags anywhere in a Markdown document, and you can use block level
-HTML tags (like <div> and <table> as well).
+HTML tags (C<< <div> >>, C<< <table> >> etc.). Note that by default
+Markdown isn't interpreted in HTML block-level elements, unless you add
+a C<markdown=1"> attribute to the element. See L<Text::Markdown> for 
+details.
 
 This module implements the MultiMarkdown markdown syntax extensions from:
 
