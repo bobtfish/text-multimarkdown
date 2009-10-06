@@ -12,7 +12,7 @@ resources bugtracker => 'http://github.com/bobtfish/text-multimarkdown/issues';
 # Specific dependencies
 perl_version    '5.008';
 requires        'Digest::MD5'     => undef;
-requires        'Text::Markdown'  => '1.0.24';
+requires        'Text::Markdown'  => '1.0.26';
 requires        'Encode'          => undef;
 build_requires  'Test::More'      => '0.42';
 build_requires  'Test::Exception' => undef;
@@ -23,12 +23,7 @@ build_requires  'FindBin'         => undef;
 if ($Module::Install::AUTHOR) {
     system("pod2text lib/Text/MultiMarkdown.pm > README")
         and die $!;
-    require Module::Install::CheckConflicts;
 }
-
-check_conflicts(
-    'Text::Markdown' => '1.0.25',
-);
 
 # Scripts I install
 prompt_script('script/MultiMarkdown.pl');
