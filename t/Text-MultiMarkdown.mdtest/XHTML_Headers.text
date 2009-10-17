@@ -1,0 +1,9 @@
+Title: MultiMarkdown Test Document
+Author: Fletcher T. Penney, MD
+Date: January 14, 2006
+Format: complete
+Css: http://some.url/sample.css
+XHTML Header: <link rel="openid.server" href="http://www.myopenid.com/server" /> 
+		<link rel="openid.delegate" href="http://openid.org/example" />
+
+Intro: This is the first paragraph.

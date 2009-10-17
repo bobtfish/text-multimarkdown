@@ -776,6 +776,9 @@ sub _xhtmlMetaData {
         elsif (lc($key) eq "css") {
             $result.= qq[\t\t<link type="text/css" rel="stylesheet" href="$self->{_metadata}{$key}"$self->{empty_element_suffix}\n];
         }
+		elsif( lc($key) eq "xhtml header") {
+			$result .= qq[\t\t$self->{_metadata}{$key}\n]
+		}
         else {
             $result.= qq[\t\t<meta name="$key" content="$self->{_metadata}{$key}"$self->{empty_element_suffix}\n];
         }
