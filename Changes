@@ -1,5 +1,7 @@
 This file documents the revision history for Perl extension Text::MultiMarkdown.
 
+1.0.30 2009-10-22T22:04:40
+       - Add support for XHTML Headers: metadata
 
 1.0.29 2009-10-06T08:25:40
         - Update dependency versions in Makefile.PL (neglected in last release).
