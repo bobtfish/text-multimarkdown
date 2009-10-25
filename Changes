@@ -1,5 +1,9 @@
 This file documents the revision history for Perl extension Text::MultiMarkdown.
 
+1.0.31 2009-10-25T19:19:30
+       - Version bump to depend on 2 part version number in latest
+         Text::Markdown to avoid dependency issues.
+
 1.0.30 2009-10-22T22:04:40
        - Add support for XHTML Headers: metadata
 
