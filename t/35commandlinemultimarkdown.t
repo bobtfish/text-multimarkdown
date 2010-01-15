@@ -1,12 +1,13 @@
 use strict;
 use warnings;
 use FindBin qw($Bin);
-use File::Slurp qw(slurp);
 use Test::More tests => 2;
 use Test::Exception;
 
-unshift(@ARGV, "$Bin/Text-MultiMarkdown.mdtest/Markdown_Documentation_-_Syntax.text");
-my $expected = slurp("$Bin/Text-MultiMarkdown.mdtest/Markdown_Documentation_-_Syntax.xhtml");
+my $filename = "$Bin/Text-MultiMarkdown.mdtest/Markdown_Documentation_-_Syntax";
+unshift(@ARGV, "$filename.text");
+open my $file, '<', "$filename.xhtml" or die "Couldn't open $filename: $!";
+my $expected = do {local $/ = undef; <$file>};
 
 lives_ok {
     require "$Bin/../script/MultiMarkdown.pl";

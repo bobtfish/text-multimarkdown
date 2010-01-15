@@ -3,7 +3,6 @@ use warnings;
 use Test::More;
 use FindBin qw($Bin);
 use List::MoreUtils qw(uniq);
-use File::Slurp qw(slurp);
 use Encode;
 
 our $TIDY = 0;
@@ -75,6 +74,13 @@ sub get_files {
     closedir($DH);
     return @files;
 }
+
+sub slurp {
+    my ($filename) = @_;
+    open my $file, '<', $filename or die "Couldn't open $filename: $!";
+    local $/ = undef;
+    return <$file>;
+}    
 
 sub run_tests {
     my ($m, $docsdir, @files) = @_;
