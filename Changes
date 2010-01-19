@@ -1,6 +1,8 @@
 This file documents the revision history for Perl extension Text::MultiMarkdown.
 
-        - Removed File::Slurp dependency (v. 9999.13 fails tests on Strawberry 5.10.1) (dandv)
+1.0.32 2010-12-19T10:31:00
+       - Removed File::Slurp dependency (v. 9999.13 fails tests on Strawberry
+         5.10.1) (dandv)
 
 1.0.31 2009-10-25T19:19:30
        - Version bump to depend on 2 part version number in latest
