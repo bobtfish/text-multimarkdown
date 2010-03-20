@@ -1,5 +1,8 @@
 This file documents the revision history for Perl extension Text::MultiMarkdown.
 
+1.0.33 2010-03-20T23:08:00
+       - Fix installation of MultiMarkdown.pl script.
+
 1.0.32 2010-12-19T10:31:00
        - Removed File::Slurp dependency (v. 9999.13 fails tests on Strawberry
          5.10.1) (dandv)
