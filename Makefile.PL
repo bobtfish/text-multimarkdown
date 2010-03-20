@@ -24,7 +24,6 @@ if ($Module::Install::AUTHOR) {
         and die $!;
 }
 
-# Scripts I install
-prompt_script('script/MultiMarkdown.pl');
+install_script 'script/MultiMarkdown.pl';
 
 WriteAll;
