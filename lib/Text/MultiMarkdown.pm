@@ -131,6 +131,10 @@ If true, this disables the MultiMarkdown footnotes handling.
 
 If true, this disables the MultiMarkdown bibliography/citation handling.
 
+=item disable_definition_lists
+
+If true, this disables the MultiMarkdown definition list handling.
+
 =back
 
 A number of possible items of metadata can also be supplied as options.
@@ -363,6 +367,87 @@ sub _DoHeaders {
     # Do tables to populate the table id's for cross-refs
     # (but after headers as the tables can contain cross-refs to other things, so we want the header cross-refs)
     $text = $self->_DoTables($text);
+}
+
+sub _DoLists {
+    my ($self, $text) = @_;
+    $text = $self->_DoDefinitionLists($text)
+        unless $self->{disable_definition_lists};
+    $self->SUPER::_DoLists($text);
+}
+
+sub _DoDefinitionLists {
+    my ($self, $text) = @_;
+	# Uses the syntax proposed by Michel Fortin in PHP Markdown Extra
+
+	my $less_than_tab = $self->{tab_width} -1;
+
+	my $line_start = qr{
+		[ ]{0,$less_than_tab}
+	}mx;
+
+	my $term = qr{
+		$line_start
+		[^:\s][^\n]*\n
+	}sx;
+
+	my $definition = qr{
+		\n?[ ]{0,$less_than_tab}
+		\:[ \t]+(.*?)\n
+		((?=\n?\:)|\n|\Z)	# Lookahead for next definition, two returns,
+							# or the end of the document
+	}sx;
+
+	my $definition_block = qr{
+		((?:$term)+)				# $1 = one or more terms
+		((?:$definition)+)			# $2 = by one or more definitions
+	}sx;
+
+	my $definition_list = qr{
+		(?:$definition_block\n*)+		# One ore more definition blocks
+	}sx;
+
+	$text =~ s{
+		($definition_list)			# $1 = the whole list
+	}{
+		my $list = $1;
+		my $result = $1;
+		
+		$list =~ s{
+			(?:$definition_block)\n*
+		}{
+			my $terms = $1;
+			my $defs = $2;
+
+			$terms =~ s{
+				[ ]{0,$less_than_tab}
+				(.*)
+				\s*
+			}{
+				my $term = $1;
+				my $result = "";
+				$term =~ s/^\s*(.*?)\s*$/$1/;
+				if ($term !~ /^\s*$/){
+					$result = "<dt>" . $self->_RunSpanGamut($1) . "</dt>\n";
+				}
+				$result;
+			}xmge;
+
+			$defs =~ s{
+				$definition
+			}{
+				my $def = $1 . "\n";
+				$def =~ s/^[ ]{0,$self->{tab_width}}//gm;
+				"<dd>\n" . $self->_RunBlockGamut($def) . "\n</dd>\n";
+			}xsge;
+
+			$terms . $defs . "\n";
+		}xsge;
+
+		"<dl>\n" . $list . "</dl>\n\n";
+	}xsge;
+
+	return $text
 }
 
 # Generating headers automatically generates X-refs in MultiMarkdown (always)

@@ -107,6 +107,9 @@ OPTIONS
         If true, this disables the MultiMarkdown bibliography/citation
         handling.
 
+    disable_definition_lists
+        If true, this disables the MultiMarkdown definition list handling.
+
     A number of possible items of metadata can also be supplied as options.
     Note that if the use_metadata is true then the metadata in the document
     will overwrite the settings on command line.
