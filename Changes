@@ -1,5 +1,8 @@
 This file documents the revision history for Perl extension Text::MultiMarkdown.
 
+1.0.34 2011-04-26T10:25:00
+       - Add definition list support from the MultiMarkdown spec.
+
 1.0.33 2010-03-20T23:08:00
        - Fix installation of MultiMarkdown.pl script.
 
