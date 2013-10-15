@@ -4,10 +4,11 @@ use strict;
 use warnings;
 use re 'eval';
 
-use Digest::MD5 qw(md5_hex);
-use Encode      qw();
-use Carp        qw(croak);
-use base        qw(Text::Markdown);
+use Digest::MD5    qw(md5_hex);
+use Encode         qw();
+use Carp           qw(croak);
+use base           qw(Text::Markdown);
+use HTML::Entities qw(encode_entities);
 
 our $VERSION   = '1.000034'; # 1.0.34
 $VERSION = eval $VERSION;
@@ -857,7 +858,7 @@ sub _xhtmlMetaData {
 
     foreach my $key (sort keys %{$self->{_metadata}} ) {
         if (lc($key) eq "title") {
-            $result.= "\t\t<title>$self->{_metadata}{$key}</title>\n";
+            $result.= "\t\t<title>" . encode_entities($self->{_metadata}{$key}) . "</title>\n";
         }
         elsif (lc($key) eq "css") {
             $result.= qq[\t\t<link type="text/css" rel="stylesheet" href="$self->{_metadata}{$key}"$self->{empty_element_suffix}\n];
@@ -866,7 +867,8 @@ sub _xhtmlMetaData {
 			$result .= qq[\t\t$self->{_metadata}{$key}\n]
 		}
         else {
-            $result.= qq[\t\t<meta name="$key" content="$self->{_metadata}{$key}"$self->{empty_element_suffix}\n];
+            $result.= qq[\t\t<meta name="] . encode_entities($key) . qq[" ]
+                . qq[content="] . encode_entities($self->{_metadata}{$key}) . qq["$self->{empty_element_suffix}\n];
         }
     }
     $result.= "\t</head>\n";
