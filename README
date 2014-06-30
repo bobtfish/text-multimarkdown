@@ -119,6 +119,7 @@ OPTIONS
     document_format
     use_wikilinks
     base_url
+    self_url - The document url is prepended to the "#" anchor of footnotes.
 
 METADATA
     MultiMarkdown supports the concept of 'metadata', which allows you to
