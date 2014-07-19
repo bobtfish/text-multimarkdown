@@ -1,10 +1,13 @@
 This file documents the revision history for Perl extension Text::MultiMarkdown.
 
-    Add a 'self_url' configuration parameter to the constructor. If set, the value
-    is prepended to the "#" anchor of footnotes.
+1.000035 2014-06-19T16:55:00
+      - Add a 'self_url' configuration parameter to the constructor. If set, the
+        value is prepended to the "#" anchor of footnotes.
 
-    Metadata is now properly encoded -  special characters (like angles, ampersand, or quotes)
-    are encoded to generate valid (X)HTML.
+       - Metadata is now properly encoded -  special characters (like angles,
+         ampersand, or quotes) are encoded to generate valid (X)HTML.
+
+       - Add HTML::Entities as an explicit dependency.
 
 1.0.34 2011-04-26T10:25:00
        - Add definition list support from the MultiMarkdown spec.

@@ -10,7 +10,7 @@ use Carp           qw(croak);
 use base           qw(Text::Markdown);
 use HTML::Entities qw(encode_entities);
 
-our $VERSION   = '1.000034'; # 1.0.34
+our $VERSION   = '1.000035'; # 1.0.34
 $VERSION = eval $VERSION;
 our @EXPORT_OK = qw(markdown);
 
